@@ -1,1 +1,21 @@
-<p>product-list works!</p>
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nome</th>
+      <th>Preço</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let product of products">
+      <td>{{ product.id }}</td>
+      <td>{{ product.name }}</td>
+      <td>{{ product.price }}</td>
+      <td>
+        <button (click)="onSelect(product)">Ver detalhes</button>
+        <button (click)="onDelete(product)">Deletar</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

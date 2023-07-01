@@ -1,21 +1,21 @@
 <div class="container">
   <h2>Adicionar Produto</h2>
 
-  <form (ngSubmit)="addProduct()" class="mt-4">
-    <div class="mb-3">
-      <label for="name" class="form-label">Nome</label>
+  <form (ngSubmit)="addProduct()">
+    <div class="form-group">
+      <label for="name">Nome</label>
       <input type="text" class="form-control" id="name" [(ngModel)]="product.name" name="name" required>
     </div>
 
-    <div class="mb-3">
-      <label for="price" class="form-label">Preço</label>
+    <div class="form-group">
+      <label for="price">Preço</label>
       <input type="number" class="form-control" id="price" [(ngModel)]="product.price" name="price" required>
     </div>
 
-    <div class="mb-3">
-      <label for="category" class="form-label">Categoria</label>
-      <select class="form-select" id="category" [(ngModel)]="product.category_id" name="category_id" required>
-        <option *ngFor="let category of categories" [value]="category.id">{{category.name}}</option>
+    <div class="form-group">
+      <label for="category">Categoria</label>
+      <select class="form-control" id="category" [(ngModel)]="product.category_id" name="category" required>
+        <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
       </select>
     </div>
 

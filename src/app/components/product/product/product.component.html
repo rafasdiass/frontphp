@@ -5,14 +5,21 @@
   <button (click)="toggleAddProduct()" class="btn btn-primary mb-3">Adicionar Produto</button>
 
   <!-- Lista de produtos -->
-  <app-product-list [products]="products" (selectProduct)="onProductSelect($event)" (deleteProduct)="onDeleteProduct($event)"></app-product-list>
+  <ul class="list-group">
+    <li class="list-group-item" *ngFor="let product of products">
+      {{ product.name }} - R$ {{ product.price }}
+
+      <button class="btn btn-link" (click)="onProductSelect(product)">Detalhes</button>
+      <button class="btn btn-link" (click)="onDeleteProduct(product)">Excluir</button>
+    </li>
+  </ul>
 
   <!-- Componente para adicionar um produto -->
-  <app-product-add *ngIf="showAddProduct" (productAdded)="onProductAdded($event)" (cancelAdd)="toggleAddProduct()"></app-product-add>
+  <app-product-add *ngIf="showAddProduct" (cancelAddEvent)="toggleAddProduct()"></app-product-add>
 
   <!-- Componente para visualizar detalhes do produto -->
-  <app-product-details *ngIf="selectedProduct" [product]="selectedProduct"></app-product-details>
+  <!-- Coloque aqui o código para exibir os detalhes do produto -->
 
   <!-- Componente para remover um produto -->
-  <app-product-delete *ngIf="productToDelete" [product]="productToDelete" (confirmDelete)="onConfirmDelete($event)" (cancelDelete)="onCancelDelete()"></app-product-delete>
+  <!-- Coloque aqui o código para remover um produto -->
 </div>

@@ -10,4 +10,12 @@ export class ProductListComponent {
   @Input() products: Product[] = [];
   @Output() selectProduct = new EventEmitter<Product>();
   @Output() deleteProduct = new EventEmitter<Product>();
+
+  onSelect(product: Product) {
+    this.selectProduct.emit(product);
+  }
+
+  onDelete(product: Product) {
+    this.deleteProduct.emit(product);
+  }
 }

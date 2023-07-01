@@ -1,22 +1,24 @@
-<div class="container" *ngIf="category">
-  <h1>{{ category.name }}</h1>
+<div class="container mt-4">
+  <h2 class="mb-4">Gerenciar Categorias</h2>
 
-  <div class="row">
-    <div class="col-sm-4" *ngFor="let product of products">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">{{ product.name }}</h5>
-          <p class="card-text">
-            Price: {{ product.price | currency:'USD' }} <br />
-            Category ID: {{ product.category_id }}
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- If the category does not exist, show an error message -->
-<div *ngIf="!category" class="alert alert-danger" role="alert">
-  Category not found.
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nome</th>
+        <th scope="col">Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let category of categories; index as i">
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{ category.name }}</td>
+        <td>
+          <button class="btn btn-danger" (click)="deleteCategory(category.id)">
+            <i class="bi-trash"></i> Excluir
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>

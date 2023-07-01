@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { Category } from '../../models/category.model';
-import { Product } from '../../models/product.model';
 
 @Component({
   selector: 'app-category',
@@ -10,43 +8,41 @@ import { Product } from '../../models/product.model';
   styleUrls: ['./category.component.scss']
 })
 export class CategoryComponent implements OnInit {
-  category: Category | null = null;
-  products: Product[] = [];
+  categories: Category[] = [];
 
-  constructor(
-    private route: ActivatedRoute,
-    private apiService: ApiService
-  ) { }
+  constructor(private apiService: ApiService) { }
 
   ngOnInit() {
-    this.route.paramMap.subscribe(params => {
-      const id = params.get('id');
-      if (id) {
-        this.getCategory(+id);
-        this.getProductsByCategory(+id); // updated to getProductsByCategory()
-      }
-    });
+    this.getCategories();
   }
 
-  getCategory(id: number) {
-    this.apiService.getCategories().subscribe( // updated to getCategories()
-      (categories: Category[]) => {
-        this.category = categories.find(category => category.id === id) || null;
+  getCategories() {
+    this.apiService.getCategories().subscribe(
+      (categories: Category[] | null) => {
+        if (categories) {
+          this.categories = categories;
+        } else {
+          console.error('getCategories retornou null');
+        }
       },
-      (error: any) => { // added type any for error
-        console.log('Erro ao obter a categoria:', error);
+      (error: any) => {
+        console.log('Erro ao obter as categorias:', error);
       }
     );
   }
 
-  getProductsByCategory(category_id: number) { // updated to getProductsByCategory
-    this.apiService.getProductsByCategory(category_id).subscribe(
-      (products: Product[]) => {
-        this.products = products;
-      },
-      (error: any) => { // added type any for error
-        console.log('Erro ao obter os produtos:', error);
-      }
-    );
+  deleteCategory(id: number | undefined) {
+    if (id) {
+      this.apiService.deleteCategory(id).subscribe(
+        () => {
+          this.categories = this.categories.filter(category => category.id !== id);
+        },
+        (error: any) => {
+          console.log('Erro ao remover a categoria:', error);
+        }
+      );
+    } else {
+      console.error('ID da categoria não fornecido');
+    }
   }
 }

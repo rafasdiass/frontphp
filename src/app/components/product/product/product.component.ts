@@ -53,9 +53,9 @@ export class ProductComponent implements OnInit {
     this.toggleAddProduct();
   }
 
-  onConfirmDelete(productId: number) {
-    this.apiService.deleteProduct(productId).subscribe(() => {
-      this.products = this.products.filter(product => product.id !== productId);
+  onConfirmDelete(product: Product) {
+    this.apiService.deleteProduct(product.id).subscribe(() => {
+      this.products = this.products.filter(p => p.id !== product.id);
       this.productToDelete = null;
     });
   }
