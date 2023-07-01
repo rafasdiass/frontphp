@@ -1,9 +1,11 @@
-
 <div class="card">
   <div class="card-body">
+    <div class="card-logo">
+      <img src="../../../assets/logo.fw.png" alt="Logo" class="logo">
+    </div>
     <h5 class="card-title">Login</h5>
 
-    <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="needs-validation" novalidate>
+        <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="needs-validation" novalidate>
 
       <div class="form-group">
         <label for="email">
@@ -36,4 +38,3 @@
 
   </div>
 </div>
-
