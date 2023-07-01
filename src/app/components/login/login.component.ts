@@ -27,10 +27,11 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       this.apiService.login(this.loginForm.value.username, this.loginForm.value.password)
         .subscribe(() => {
-          this.router.navigateByUrl('/home'); 
+          this.router.navigateByUrl('/home');
         }, error => {
           console.error(error);
         });
+        //
     }
   }
 }
