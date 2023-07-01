@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, tap } from 'rxjs';
 import { Product } from '../models/product.model';
 import { AuthResponse } from '../models/authresponse.model';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,12 +12,13 @@ export class ApiService {
   private baseUrl = 'http://localhost:8000/api';
   private productsSubject: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>([]);
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
   login(email: string, password: string): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.baseUrl}/login`, {email, password}).pipe(
       tap(response => {
         localStorage.setItem('authToken', response.access_token);
+        this.authService.loadToken();
       })
     );
   }

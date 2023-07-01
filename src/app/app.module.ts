@@ -18,6 +18,7 @@ import { LoginComponent } from './components/login/login.component';
 import { CategoryComponent } from './components/category/category.component';
 import { FormsModule } from '@angular/forms';
 import { CategoryListComponent } from './components/category/category-list/category-list.component';
+import { AuthGuard } from './services/authguard.service';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { CategoryListComponent } from './components/category/category-list/categ
   ],
   providers: [
     AuthService,
+    AuthGuard,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]

@@ -11,15 +11,15 @@ export class NavbarComponent implements OnInit {
   isAuthenticated: boolean = false;
   userEmail: string = '';
 
-  constructor(public authService: AuthService, private router: Router) { }
-
-  ngOnInit() {
-    console.log('NavbarComponent initialized');
-
+  constructor(public authService: AuthService, private router: Router) {
     this.authService.subscribeToAuthenticationState().subscribe(isAuthenticated => {
       this.isAuthenticated = isAuthenticated;
       this.userEmail = this.authService.getUserEmail();
     });
+  }
+
+  ngOnInit() {
+    console.log('NavbarComponent initialized');
   }
 
   logout() {
@@ -27,3 +27,4 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 }
+
