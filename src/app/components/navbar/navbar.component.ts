@@ -3,12 +3,10 @@ import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-navbar',
-  template: `
-  <nav *ngIf="isAuthenticated">
-    <!-- O conteúdo da sua barra de navegação -->
-  </nav>
-  `
+  templateUrl: './navbar.component.html',
+  styleUrls: ['./navbar.component.scss']
 })
+
 export class NavbarComponent implements OnInit {
 
   isAuthenticated: boolean = false;
@@ -16,7 +14,8 @@ export class NavbarComponent implements OnInit {
   constructor(public authService: AuthService) { }
 
   ngOnInit() {
-    this.isAuthenticated = this.authService.isAuthenticated();
+    this.authService.getToken().subscribe((token) => {
+      this.isAuthenticated = this.authService.isAuthenticated();
+    });
   }
-
 }
