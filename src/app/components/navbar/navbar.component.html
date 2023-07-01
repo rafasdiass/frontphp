@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light" *ngIf="isAuthenticated">
   <a class="navbar-brand" href="#">Logo</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -17,5 +17,14 @@
         </a>
       </li>
     </ul>
+    <div class="navbar">
+      <div class="navbar-items">
+        <div class="user-info" *ngIf="isAuthenticated">
+          <span>{{ userEmail }}</span>
+          <button (click)="logout()">Logout</button>
+        </div>
+      </div>
+    </div>
+
   </div>
 </nav>

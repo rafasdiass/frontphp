@@ -1,0 +1,16 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h2>Confirmar exclusão do produto</h2>
+      <p>Tem certeza de que deseja excluir o produto?</p>
+      <div *ngIf="!isProductIdNull">
+        <button class="btn btn-danger" (click)="deleteProduct()">Excluir</button>
+        <button class="btn btn-secondary" (click)="cancelDelete()">Cancelar</button>
+      </div>
+      <div *ngIf="isProductIdNull">
+        <p>O ID do produto é nulo. Não é possível excluir o produto.</p>
+        <button class="btn btn-secondary" (click)="cancelDelete()">Voltar</button>
+      </div>
+    </div>
+  </div>
+</div>

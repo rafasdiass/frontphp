@@ -6,15 +6,18 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { ProductListComponent } from './components/product-list/product-list.component';
-import { ProductDetailsComponent } from './components/product-details/product-details.component';
-import { ProductAddComponent } from './components/product-add/product-add.component';
-import { ProductDeleteComponent } from './components/product-delete/product-delete.component';
-import { ProductComponent } from './components/product/product.component';
+import { ProductListComponent } from './components/product/product-list/product-list.component';
+import { ProductDetailsComponent } from './components/product/product-details/product-details.component';
+import { ProductAddComponent } from './components/product/product-add/product-add.component';
+import { ProductDeleteComponent } from './components/product/product-delete/product-delete.component';
+import { ProductComponent } from './components/product/product/product.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './services/auth.interceptor';
 import { AuthService } from './services/auth.service';
 import { LoginComponent } from './components/login/login.component';
+import { CategoryComponent } from './components/category/category.component';
+import { FormsModule } from '@angular/forms';
+import { CategoryListComponent } from './components/category/category-list/category-list.component';
 
 @NgModule({
   declarations: [
@@ -27,15 +30,18 @@ import { LoginComponent } from './components/login/login.component';
     ProductDeleteComponent,
     ProductComponent,
     LoginComponent,
+    CategoryComponent,
+    CategoryListComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
+    FormsModule
   ],
   providers: [
-    AuthService,  
+    AuthService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]

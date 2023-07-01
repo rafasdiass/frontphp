@@ -1,0 +1,8 @@
+<h2>Produtos</h2>
+
+<ul class="list-group">
+  <li class="list-group-item" *ngFor="let product of products">
+    <span class="bi bi-cart-fill me-2"></span>
+    {{ product.name }} - {{ product.description }} - R$ {{ product.price }}
+  </li>
+</ul>

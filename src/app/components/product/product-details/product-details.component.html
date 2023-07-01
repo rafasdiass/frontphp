@@ -1,0 +1,17 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h2>Detalhes do Produto</h2>
+      <div *ngIf="!isProductIdNull && product">
+        <p><strong>ID:</strong> {{ product.id }}</p>
+        <p><strong>Nome:</strong> {{ product.name }}</p>
+        <p><strong>Descrição:</strong> {{ product.description }}</p>
+        <p><strong>Preço:</strong> R$ {{ product.price }}</p>
+        <p><strong>ID da Categoria:</strong> {{ product.category_id }}</p>
+      </div>
+      <div *ngIf="isProductIdNull">
+        <p>O ID do produto é nulo. Não é possível exibir os detalhes do produto.</p>
+      </div>
+    </div>
+  </div>
+</div>

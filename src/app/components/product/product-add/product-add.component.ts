@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { ApiService } from '../../services/api.service';
-import { Product } from '../../models/product.model';
+import { ApiService } from '../../../services/api.service';
+import { Product } from '../../../models/product.model';
 
 @Component({
   selector: 'app-product-add',
@@ -26,5 +26,11 @@ export class ProductAddComponent {
       // Redirecionar para a página de listagem de produtos após adicionar o produto
       this.router.navigate(['/products']);
     });
+  }
+
+  cancelAdd() {
+    // Lógica para cancelar a adição do produto
+    // Por exemplo, redirecionar de volta para a página de listagem de produtos sem adicionar o produto
+    this.router.navigate(['/products']);
   }
 }

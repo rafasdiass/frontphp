@@ -1,0 +1,19 @@
+<h2>Categorias</h2>
+
+<ul class="list-group">
+  <li class="list-group-item" *ngFor="let product of products">
+    <button class="btn btn-link" [class.active]="categoryId === product.category_id" (click)="getProductsByCategory(product.category_id)">
+      <i class="bi bi-tag-fill"></i> {{ product.category_id }}
+    </button>
+  </li>
+</ul>
+
+<div class="mt-4" *ngIf="products.length > 0">
+  <h3>Produtos da categoria "{{ categoryId }}"</h3>
+
+  <ul class="list-group">
+    <li class="list-group-item" *ngFor="let product of products">
+      {{ product.name }} - {{ product.description }}
+    </li>
+  </ul>
+</div>
