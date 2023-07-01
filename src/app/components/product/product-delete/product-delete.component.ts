@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ApiService } from '../../../services/api.service';
+import { Component, Input, EventEmitter, Output, OnInit } from '@angular/core';
+import { Product } from '../../../models/product.model';
 
 @Component({
   selector: 'app-product-delete',
@@ -8,38 +7,19 @@ import { ApiService } from '../../../services/api.service';
   styleUrls: ['./product-delete.component.scss']
 })
 export class ProductDeleteComponent implements OnInit {
-  productId!: number;
-  isProductIdNull = false;
+  @Input() product: Product = {} as Product;
+  @Output() confirmDelete = new EventEmitter<number>();
+  @Output() cancelDelete = new EventEmitter<void>();
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private apiService: ApiService
-  ) { }
+  constructor() { }
 
-  ngOnInit() {
-    this.route.paramMap.subscribe(params => {
-      const id = params.get('id');
-      if (id) {
-        this.productId = +id;
-      } else {
-        this.isProductIdNull = true;
-      }
-    });
+  ngOnInit() {}
+
+  onConfirm() {
+    this.confirmDelete.emit(this.product.id);
   }
 
-  deleteProduct() {
-    if (this.productId) {
-      this.apiService.deleteProduct(this.productId).subscribe(() => {
-        this.apiService.updateProductsList();
-        this.router.navigate(['/products']);
-      });
-    } else {
-      // Tratar caso o id seja nulo
-    }
-  }
-
-  cancelDelete() {
-    this.router.navigate(['/products']);
+  onCancel() {
+    this.cancelDelete.emit();
   }
 }

@@ -9,6 +9,9 @@ import { Product } from '../../../models/product.model';
 })
 export class ProductComponent implements OnInit {
   products: Product[] = [];
+  showAddProduct = false;
+  selectedProduct: Product | null = null;
+  productToDelete: Product | null = null;
 
   constructor(private apiService: ApiService) { }
 
@@ -27,4 +30,37 @@ export class ProductComponent implements OnInit {
     );
   }
 
+  toggleAddProduct() {
+    this.showAddProduct = !this.showAddProduct;
+    this.selectedProduct = null;
+    this.productToDelete = null;
+  }
+
+  onProductSelect(product: Product) {
+    this.selectedProduct = product;
+    this.showAddProduct = false;
+    this.productToDelete = null;
+  }
+
+  onDeleteProduct(product: Product) {
+    this.productToDelete = product;
+    this.showAddProduct = false;
+    this.selectedProduct = null;
+  }
+
+  onProductAdded(product: Product) {
+    this.products.push(product);
+    this.toggleAddProduct();
+  }
+
+  onConfirmDelete(productId: number) {
+    this.apiService.deleteProduct(productId).subscribe(() => {
+      this.products = this.products.filter(product => product.id !== productId);
+      this.productToDelete = null;
+    });
+  }
+
+  onCancelDelete() {
+    this.productToDelete = null;
+  }
 }

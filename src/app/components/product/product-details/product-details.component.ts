@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../../services/api.service';
 import { Product } from '../../../models/product.model';
@@ -9,7 +9,9 @@ import { Product } from '../../../models/product.model';
   styleUrls: ['./product-details.component.scss']
 })
 export class ProductDetailsComponent implements OnInit {
-  product: Product | null = null;
+  @Input() product: Product | null = null;
+  @Output() productDeleted = new EventEmitter<number>();
+
   productId: number | null = null;
   isProductIdNull = false;
 
@@ -31,12 +33,17 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   getProduct(id: number) {
-    this.apiService.getProduct(id).subscribe(product => {
-      if (product) {
+    this.apiService.getProduct(id).subscribe(
+      (product: Product) => {
         this.product = product;
-      } else {
-        // Tratar caso o produto seja nulo
+      },
+      (error) => {
+        console.log('Erro ao obter o produto:', error);
       }
-    });
+    );
+  }
+
+  deleteProduct(productId: number) {
+    this.productDeleted.emit(productId);
   }
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component , EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from '../../../services/api.service';
 import { Product } from '../../../models/product.model';
@@ -9,6 +9,8 @@ import { Product } from '../../../models/product.model';
   styleUrls: ['./product-add.component.scss']
 })
 export class ProductAddComponent {
+  @Output() productAdded = new EventEmitter<Product>();
+  @Output() cancelAddEvent = new EventEmitter<void>(); //renamed to cancelAddEvent
   product: Product = {
     id: 0,
     name: '',
@@ -21,16 +23,15 @@ export class ProductAddComponent {
 
   addProduct() {
     this.apiService.addProduct(this.product).subscribe(() => {
-      // Atualizar a lista de produtos
-      this.apiService.updateProductsList();
-      // Redirecionar para a página de listagem de produtos após adicionar o produto
+      // Emit the event so the parent component can react
+      this.productAdded.emit(this.product);
+      // Redirect to the product listing page after adding the product
       this.router.navigate(['/products']);
     });
   }
 
-  cancelAdd() {
-    // Lógica para cancelar a adição do produto
-    // Por exemplo, redirecionar de volta para a página de listagem de produtos sem adicionar o produto
-    this.router.navigate(['/products']);
+  // Emit an event when the user cancels the add operation
+  cancelAdd() { //function name remains as cancelAdd
+    this.cancelAddEvent.emit(); //using cancelAddEvent here
   }
 }

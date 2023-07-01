@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Product } from '../../../models/product.model';
 
 @Component({
@@ -8,4 +8,6 @@ import { Product } from '../../../models/product.model';
 })
 export class ProductListComponent {
   @Input() products: Product[] = [];
+  @Output() selectProduct = new EventEmitter<Product>();
+  @Output() deleteProduct = new EventEmitter<Product>();
 }

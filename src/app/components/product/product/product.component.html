@@ -1,8 +1,18 @@
-<h2>Produtos</h2>
+<div class="container">
+  <h2>Produtos</h2>
 
-<ul class="list-group">
-  <li class="list-group-item" *ngFor="let product of products">
-    <span class="bi bi-cart-fill me-2"></span>
-    {{ product.name }} - {{ product.description }} - R$ {{ product.price }}
-  </li>
-</ul>
+  <!-- Botão para adicionar um novo produto -->
+  <button (click)="toggleAddProduct()" class="btn btn-primary mb-3">Adicionar Produto</button>
+
+  <!-- Lista de produtos -->
+  <app-product-list [products]="products" (selectProduct)="onProductSelect($event)" (deleteProduct)="onDeleteProduct($event)"></app-product-list>
+
+  <!-- Componente para adicionar um produto -->
+  <app-product-add *ngIf="showAddProduct" (productAdded)="onProductAdded($event)" (cancelAdd)="toggleAddProduct()"></app-product-add>
+
+  <!-- Componente para visualizar detalhes do produto -->
+  <app-product-details *ngIf="selectedProduct" [product]="selectedProduct"></app-product-details>
+
+  <!-- Componente para remover um produto -->
+  <app-product-delete *ngIf="productToDelete" [product]="productToDelete" (confirmDelete)="onConfirmDelete($event)" (cancelDelete)="onCancelDelete()"></app-product-delete>
+</div>
