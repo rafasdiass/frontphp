@@ -1,0 +1,15 @@
+<!-- product-details.component.html -->
+<div *ngIf="product">
+  <h2>{{ product.name }}</h2>
+
+  <div>
+    <label>Descrição:</label> {{ product.description }}
+  </div>
+  <div>
+    <label>Preço:</label> {{ product.price }}
+  </div>
+  <div>
+    <label>ID da Categoria:</label> {{ product.category_id }}
+  </div>
+</div>
+
