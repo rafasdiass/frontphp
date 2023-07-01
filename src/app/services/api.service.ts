@@ -13,8 +13,8 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
-  login(username: string, password: string): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.baseUrl}/login`, {username, password}).pipe(
+  login(email: string, password: string): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.baseUrl}/login`, {email, password}).pipe(
       tap(response => {
         localStorage.setItem('authToken', response.access_token);
       })

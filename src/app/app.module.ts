@@ -26,7 +26,7 @@ import { LoginComponent } from './components/login/login.component';
     ProductAddComponent,
     ProductDeleteComponent,
     ProductComponent,
-        LoginComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -35,7 +35,7 @@ import { LoginComponent } from './components/login/login.component';
     HttpClientModule,
   ],
   providers: [
-    AuthService,  // Adicione essa linha
+    AuthService,  
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]

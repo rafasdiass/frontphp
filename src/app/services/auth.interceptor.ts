@@ -3,20 +3,27 @@ import {
   HttpEvent, HttpInterceptor, HttpHandler, HttpRequest
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { AuthService } from '../services/auth.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
+  constructor(private authService: AuthService) {}
+
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // Obtenha o token JWT de onde quer que você o esteja armazenando
-    const authToken = localStorage.getItem('authToken');
+    // Obtenha o token JWT do AuthService
+    const authToken = this.authService.getToken().value;
 
-    // Clone a solicitação e substitua o cabeçalho de autorização original pela autorização JWT
-    const authReq = req.clone({
-      headers: req.headers.set('Authorization', `Bearer ${authToken}`)
-    });
+    // Se o token existir, adicione ao cabeçalho da requisição
+    if (authToken) {
+      const authReq = req.clone({
+        headers: req.headers.set('Authorization', `Bearer ${authToken}`)
+      });
 
-    // Envie a solicitação de autenticação ao invés da original
-    return next.handle(authReq);
+      return next.handle(authReq);
+    }
+
+    // Se o token não existir, apenas encaminhe a requisição original
+    return next.handle(req);
   }
 }
