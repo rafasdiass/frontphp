@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, tap } from 'rxjs';
 import { Product } from '../models/product.model';
+import { Category } from '../models/category.model'; // Import Category model
 import { AuthResponse } from '../models/authresponse.model';
 import { AuthService } from './auth.service';
 
@@ -23,9 +24,13 @@ export class ApiService {
     );
   }
 
-  getProducts(categoryId?: number): Observable<Product[]> {
-    const url = categoryId ? `${this.baseUrl}/products?category_id=${categoryId}` : `${this.baseUrl}/products`;
-    return this.http.get<Product[]>(url);
+  getProducts(): Observable<Product[]> {
+    return this.http.get<Product[]>(`${this.baseUrl}/products`);
+  }
+
+  // New function to get products by category_id
+  getProductsByCategory(category_id: number): Observable<Product[]> {
+    return this.http.get<Product[]>(`${this.baseUrl}/products?category_id=${category_id}`);
   }
 
   getProduct(id: number): Observable<Product> {
@@ -52,5 +57,9 @@ export class ApiService {
 
   getProductsList(): BehaviorSubject<Product[]> {
     return this.productsSubject;
+  }
+
+  getCategories(): Observable<Category[]> {
+    return this.http.get<Category[]>(`${this.baseUrl}/categories`);
   }
 }

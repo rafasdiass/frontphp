@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../services/api.service';
+import { Category } from '../../models/category.model';
 import { Product } from '../../models/product.model';
 
 @Component({
@@ -9,9 +10,8 @@ import { Product } from '../../models/product.model';
   styleUrls: ['./category.component.scss']
 })
 export class CategoryComponent implements OnInit {
+  category: Category | null = null;
   products: Product[] = [];
-  categoryId: number | null = null;
-  isCategoryIdNull = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -22,17 +22,31 @@ export class CategoryComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
       if (id) {
-        this.categoryId = +id;
-        this.getProductsByCategory(this.categoryId);
-      } else {
-        this.isCategoryIdNull = true;
+        this.getCategory(+id);
+        this.getProductsByCategory(+id); // updated to getProductsByCategory()
       }
     });
   }
 
-  getProductsByCategory(categoryId: number) {
-    this.apiService.getProducts(categoryId).subscribe(products => {
-      this.products = products;
-    });
+  getCategory(id: number) {
+    this.apiService.getCategories().subscribe( // updated to getCategories()
+      (categories: Category[]) => {
+        this.category = categories.find(category => category.id === id) || null;
+      },
+      (error: any) => { // added type any for error
+        console.log('Erro ao obter a categoria:', error);
+      }
+    );
+  }
+
+  getProductsByCategory(category_id: number) { // updated to getProductsByCategory
+    this.apiService.getProductsByCategory(category_id).subscribe(
+      (products: Product[]) => {
+        this.products = products;
+      },
+      (error: any) => { // added type any for error
+        console.log('Erro ao obter os produtos:', error);
+      }
+    );
   }
 }

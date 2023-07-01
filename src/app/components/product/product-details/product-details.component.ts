@@ -2,6 +2,7 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../../services/api.service';
 import { Product } from '../../../models/product.model';
+import { Category } from '../../../models/category.model'; // import the Category model
 
 @Component({
   selector: 'app-product-details',
@@ -11,39 +12,72 @@ import { Product } from '../../../models/product.model';
 export class ProductDetailsComponent implements OnInit {
   @Input() product: Product | null = null;
   @Output() productDeleted = new EventEmitter<number>();
+  products: Product[] = [];
+  categories: Category[] = []; // New property to hold categories
+  showAddProduct = false;
+  selectedProduct: Product | null = null;
+  productToDelete: Product | null = null;
 
-  productId: number | null = null;
-  isProductIdNull = false;
-
-  constructor(
-    private route: ActivatedRoute,
-    private apiService: ApiService
-  ) { }
+  constructor(private apiService: ApiService) { }
 
   ngOnInit() {
-    this.route.paramMap.subscribe(params => {
-      const id = params.get('id');
-      if (id) {
-        this.productId = +id;
-        this.getProduct(this.productId);
-      } else {
-        this.isProductIdNull = true;
-      }
-    });
+    this.getProducts();
+    this.getCategories(); // Call getCategories on initialization
   }
 
-  getProduct(id: number) {
-    this.apiService.getProduct(id).subscribe(
-      (product: Product) => {
-        this.product = product;
+  getProducts() {
+    this.apiService.getProducts().subscribe(
+      (products: Product[]) => {
+        this.products = products;
       },
       (error) => {
-        console.log('Erro ao obter o produto:', error);
+        console.log('Erro ao obter os produtos:', error);
       }
     );
   }
 
-  deleteProduct(productId: number) {
-    this.productDeleted.emit(productId);
+  getCategories() {
+    this.apiService.getCategories().subscribe(
+      (categories: Category[]) => {
+        this.categories = categories;
+      },
+      (error) => {
+        console.log('Erro ao obter as categorias:', error);
+      }
+    );
+  }
+
+  toggleAddProduct() {
+    this.showAddProduct = !this.showAddProduct;
+    this.selectedProduct = null;
+    this.productToDelete = null;
+  }
+
+  onProductSelect(product: Product) {
+    this.selectedProduct = product;
+    this.showAddProduct = false;
+    this.productToDelete = null;
+  }
+
+  onDeleteProduct(product: Product) {
+    this.productToDelete = product;
+    this.showAddProduct = false;
+    this.selectedProduct = null;
+  }
+
+  onProductAdded(product: Product) {
+    this.products.push(product);
+    this.toggleAddProduct();
+  }
+
+  onConfirmDelete(productId: number) {
+    this.apiService.deleteProduct(productId).subscribe(() => {
+      this.products = this.products.filter(product => product.id !== productId);
+      this.productToDelete = null;
+    });
+  }
+
+  onCancelDelete() {
+    this.productToDelete = null;
   }
 }

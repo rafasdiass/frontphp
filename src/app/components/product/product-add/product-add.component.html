@@ -8,11 +8,6 @@
     </div>
 
     <div class="mb-3">
-      <label for="description" class="form-label">Descrição</label>
-      <textarea class="form-control" id="description" [(ngModel)]="product.description" name="description" required></textarea>
-    </div>
-
-    <div class="mb-3">
       <label for="price" class="form-label">Preço</label>
       <input type="number" class="form-control" id="price" [(ngModel)]="product.price" name="price" required>
     </div>
@@ -20,10 +15,7 @@
     <div class="mb-3">
       <label for="category" class="form-label">Categoria</label>
       <select class="form-select" id="category" [(ngModel)]="product.category_id" name="category_id" required>
-        <option value="1">Categoria 1</option>
-        <option value="2">Categoria 2</option>
-        <option value="3">Categoria 3</option>
-        <!-- Adicione as opções de categorias dinamicamente, se necessário -->
+        <option *ngFor="let category of categories" [value]="category.id">{{category.name}}</option>
       </select>
     </div>
 

@@ -1,19 +1,22 @@
-<h2>Categorias</h2>
+<div class="container" *ngIf="category">
+  <h1>{{ category.name }}</h1>
 
-<ul class="list-group">
-  <li class="list-group-item" *ngFor="let product of products">
-    <button class="btn btn-link" [class.active]="categoryId === product.category_id" (click)="getProductsByCategory(product.category_id)">
-      <i class="bi bi-tag-fill"></i> {{ product.category_id }}
-    </button>
-  </li>
-</ul>
+  <div class="row">
+    <div class="col-sm-4" *ngFor="let product of products">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{ product.name }}</h5>
+          <p class="card-text">
+            Price: {{ product.price | currency:'USD' }} <br />
+            Category ID: {{ product.category_id }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-<div class="mt-4" *ngIf="products.length > 0">
-  <h3>Produtos da categoria "{{ categoryId }}"</h3>
-
-  <ul class="list-group">
-    <li class="list-group-item" *ngFor="let product of products">
-      {{ product.name }} - {{ product.description }}
-    </li>
-  </ul>
+<!-- If the category does not exist, show an error message -->
+<div *ngIf="!category" class="alert alert-danger" role="alert">
+  Category not found.
 </div>

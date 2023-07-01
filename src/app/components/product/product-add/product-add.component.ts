@@ -1,37 +1,58 @@
-import { Component , EventEmitter, Output } from '@angular/core';
+import { Component , EventEmitter, Output, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from '../../../services/api.service';
 import { Product } from '../../../models/product.model';
+import { Category } from '../../../models/category.model'; // import the Category model
 
 @Component({
   selector: 'app-product-add',
   templateUrl: './product-add.component.html',
   styleUrls: ['./product-add.component.scss']
 })
-export class ProductAddComponent {
+export class ProductAddComponent implements OnInit {
   @Output() productAdded = new EventEmitter<Product>();
-  @Output() cancelAddEvent = new EventEmitter<void>(); //renamed to cancelAddEvent
+  @Output() cancelAddEvent = new EventEmitter<void>();
   product: Product = {
     id: 0,
     name: '',
-    description: '',
     price: 0,
     category_id: 0
   };
 
+  categories: Category[] = []; // add a categories property
+
   constructor(private apiService: ApiService, private router: Router) { }
 
-  addProduct() {
-    this.apiService.addProduct(this.product).subscribe(() => {
-      // Emit the event so the parent component can react
-      this.productAdded.emit(this.product);
-      // Redirect to the product listing page after adding the product
-      this.router.navigate(['/products']);
-    });
+  ngOnInit() {
+    this.getCategories(); // get the categories when the component is initialized
   }
 
-  // Emit an event when the user cancels the add operation
-  cancelAdd() { //function name remains as cancelAdd
-    this.cancelAddEvent.emit(); //using cancelAddEvent here
+  getCategories() {
+    this.apiService.getCategories().subscribe(
+      (categories: Category[]) => {
+        this.categories = categories;
+      },
+      (error) => {
+        console.error('Error fetching categories:', error);
+      }
+    );
+  }
+
+  addProduct() {
+    this.apiService.addProduct(this.product).subscribe(
+      (newProduct) => {
+        // Use the new product returned from the server
+        this.productAdded.emit(newProduct);
+        // Redirect to the product listing page after adding the product
+        this.router.navigate(['/products']);
+      },
+      (error) => {
+        console.error('Error adding product:', error);
+      }
+    );
+  }
+
+  cancelAdd() {
+    this.cancelAddEvent.emit();
   }
 }
