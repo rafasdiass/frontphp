@@ -20,6 +20,7 @@ import { FormsModule } from '@angular/forms';
 import { AuthGuard } from './services/authguard.service';
 import { CategoryCreateComponent } from './components/category/category-create/category-create.component';
 import { CategoryDeleteComponent } from './components/category/category-delete/category-delete.component';
+import { CategoryListComponent } from './components/category/category-list/category-list.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { CategoryDeleteComponent } from './components/category/category-delete/c
 
     CategoryCreateComponent,
      CategoryDeleteComponent,
+     CategoryListComponent,
   ],
   imports: [
     BrowserModule,
