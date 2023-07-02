@@ -9,15 +9,20 @@
     <li class="list-group-item" *ngFor="let product of products">
       {{ product.name }} - R$ {{ product.price }}
 
-     
       <button class="btn btn-link" (click)="onDeleteProduct(product)">Excluir</button>
     </li>
   </ul>
 
   <!-- Componente para adicionar um produto -->
-  <app-product-add *ngIf="showAddProduct" (cancelAddEvent)="toggleAddProduct()"></app-product-add>
+  <app-product-add *ngIf="showAddProduct"
+                   (productAdded)="onProductAdded($event)"
+                   (cancelAddEvent)="toggleAddProduct()">
+  </app-product-add>
 
   <!-- Componente para confirmar exclusão do produto -->
-  <app-product-delete *ngIf="productToDelete" [product]="productToDelete"
-  (confirmDelete)="onConfirmDelete(productToDelete)" (cancelDelete)="onCancelDelete()"></app-product-delete>
+  <app-product-delete *ngIf="productToDelete"
+                      [product]="productToDelete"
+                      (confirmDelete)="onConfirmDelete(productToDelete)"
+                      (cancelDelete)="onCancelDelete()">
+  </app-product-delete>
 </div>

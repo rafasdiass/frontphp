@@ -15,7 +15,6 @@ export class ProductAddComponent implements OnInit {
   product: Product = {
     name: '',
     price: 0,
-
   };
 
   products: Product[] = [];
@@ -60,6 +59,7 @@ export class ProductAddComponent implements OnInit {
       }
     );
   }
+
   addProduct() {
     if (!this.product.name || !this.product.price) {
       this.successMessage = 'Preencha todos os campos do produto';
@@ -75,9 +75,6 @@ export class ProductAddComponent implements OnInit {
         this.successMessage = `Produto criado com sucesso: ${createdProduct.name}`;
         this.productAdded.emit(createdProduct);
         this.resetProductForm();
-
-        // Atualiza a lista de produtos após a criação de um novo produto
-        this.getProducts();
       },
       (error: any) => {
         console.error('Erro ao criar o produto:', error);
@@ -86,23 +83,12 @@ export class ProductAddComponent implements OnInit {
     );
   }
 
-
-
   resetProductForm() {
     // Redefine o formulário do produto após o sucesso da criação
     this.product = { name: '', price: 0 };
   }
 
-
-
   cancelAdd() {
     this.cancelAddEvent.emit();
   }
 }
-
-
-
-
-
-
-

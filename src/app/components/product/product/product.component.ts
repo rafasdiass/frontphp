@@ -33,8 +33,6 @@ export class ProductComponent implements OnInit {
     ).subscribe();
   }
 
-
-
   toggleAddProduct() {
     this.showAddProduct = !this.showAddProduct;
     this.selectedProduct = null;
@@ -54,7 +52,7 @@ export class ProductComponent implements OnInit {
   }
 
   onProductAdded(product: Product) {
-    this.products.push(product);
+    this.products = [...this.products, product];
     this.toggleAddProduct();
   }
 
