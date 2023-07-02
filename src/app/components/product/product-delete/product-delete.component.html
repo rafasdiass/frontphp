@@ -1,6 +1,8 @@
 <div>
   <p>Tem certeza de que deseja excluir este produto?</p>
-  <p><p>{{ product.name }}</p>
+  <div class="product-name">
+    <p>{{ product.name }}</p>
+  </div>
 
   <button class="btn btn-danger" (click)="confirmDelete.emit()">Deletar</button>
   <button class="btn btn-secondary" (click)="cancelDelete.emit()">Cancelar</button>
