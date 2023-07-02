@@ -17,4 +17,7 @@
   <!-- Componente para adicionar um produto -->
   <app-product-add *ngIf="showAddProduct" (cancelAddEvent)="toggleAddProduct()"></app-product-add>
 
+  <!-- Componente para confirmar exclusão do produto -->
+  <app-product-delete *ngIf="productToDelete" [product]="productToDelete"
+  (confirmDelete)="onConfirmDelete(productToDelete)" (cancelDelete)="onCancelDelete()"></app-product-delete>
 </div>

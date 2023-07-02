@@ -59,7 +59,12 @@ export class ProductComponent implements OnInit {
   }
 
   onConfirmDelete(product: Product) {
-    this.productService.deleteProduct(product.id).subscribe(() => {
+    this.productService.deleteProduct(product.id).pipe(
+      catchError((error) => {
+        console.log('Erro ao excluir o produto:', error);
+        return throwError(error);
+      })
+    ).subscribe(() => {
       this.products = this.products.filter(p => p.id !== product.id);
       this.productToDelete = null;
     });

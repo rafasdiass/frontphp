@@ -12,14 +12,13 @@ import { Category } from '../../../models/category.model'; // Import Category mo
 })
 export class ProductAddComponent implements OnInit {
   product: Product = {
-    id: 0,
     name: '',
     price: 0,
     category_id: 0
   };
 
   products: Product[] = [];
-  categories: Category[] = []; // add this line to store categories
+  categories: Category[] = []; 
   successMessage: string | null = '';
 
   @Output() productAdded = new EventEmitter<Product>();
@@ -70,7 +69,7 @@ export class ProductAddComponent implements OnInit {
       (product: Product) => {
         this.successMessage = 'produto criado com sucesso: ' + product.name;
         this.productAdded.emit(product);
-        this.product = { id: 0, name: '', price: 0, category_id: 0 };
+        this.product = {  name: '', price: 0, category_id: 0 };
       },
       (error: any) => {
         console.log('Erro ao criar o produto:', error);
