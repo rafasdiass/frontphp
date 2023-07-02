@@ -3,7 +3,8 @@ import { Router } from '@angular/router';
 import { ProductService } from '../../../services/product.service';
 import { CategoryService } from '../../../services/category.service';
 import { Product } from '../../../models/product.model';
-import { Category } from '../../../models/category.model'; // Import Category model if you have
+import { Category } from '../../../models/category.model';
+import { retry } from 'rxjs/operators';
 
 @Component({
   selector: 'app-product-add',
@@ -14,11 +15,11 @@ export class ProductAddComponent implements OnInit {
   product: Product = {
     name: '',
     price: 0,
-    category_id: 0
+
   };
 
   products: Product[] = [];
-  categories: Category[] = []; 
+  categories: Category[] = [];
   successMessage: string | null = '';
 
   @Output() productAdded = new EventEmitter<Product>();
@@ -26,13 +27,13 @@ export class ProductAddComponent implements OnInit {
 
   constructor(
     private productService: ProductService,
-    private categoryService: CategoryService,  // inject CategoryService
+    private categoryService: CategoryService,
     private router: Router
   ) {}
 
   ngOnInit() {
     this.getProducts();
-    this.getCategories(); // fetch categories on init
+    this.getCategories();
   }
 
   getProducts() {
@@ -49,13 +50,9 @@ export class ProductAddComponent implements OnInit {
     );
   }
 
-  // add getCategories method
-
   getCategories() {
     this.categoryService.getCategories().subscribe(
       (response) => {
-
-
         this.categories = response.categories;
       },
       (error) => {
@@ -63,22 +60,49 @@ export class ProductAddComponent implements OnInit {
       }
     );
   }
-
   addProduct() {
-    this.productService.createProduct(this.product).subscribe(
-      (product: Product) => {
-        this.successMessage = 'produto criado com sucesso: ' + product.name;
-        this.productAdded.emit(product);
-        this.product = {  name: '', price: 0, category_id: 0 };
+    if (!this.product.name || !this.product.price) {
+      this.successMessage = 'Preencha todos os campos do produto';
+      return;
+    }
+
+    console.log('Chamando createProduct com:', this.product);
+
+    this.productService.createProduct(this.product).pipe(
+      retry(3)  // tente a operação novamente até 3 vezes antes de falhar
+    ).subscribe(
+      (createdProduct: Product) => {
+        this.successMessage = `Produto criado com sucesso: ${createdProduct.name}`;
+        this.productAdded.emit(createdProduct);
+        this.resetProductForm();
+
+        // Atualiza a lista de produtos após a criação de um novo produto
+        this.getProducts();
       },
       (error: any) => {
-        console.log('Erro ao criar o produto:', error);
-        this.successMessage = null;
+        console.error('Erro ao criar o produto:', error);
+        this.successMessage = 'Erro ao criar o produto. Por favor, tente novamente.';
       }
     );
   }
+
+
+
+  resetProductForm() {
+    // Redefine o formulário do produto após o sucesso da criação
+    this.product = { name: '', price: 0 };
+  }
+
+
 
   cancelAdd() {
     this.cancelAddEvent.emit();
   }
 }
+
+
+
+
+
+
+
