@@ -1,8 +1,9 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core'; // add Output and EventEmitter
 import { Router } from '@angular/router';
-import { ApiService } from '../../../services/api.service';
+import { ProductService } from '../../../services/product.service'; // Import ProductService
+import { CategoryService } from '../../../services/category.service'; // Import CategoryService
 import { Product } from '../../../models/product.model';
-import { Category } from '../../../models/category.model';
+
 
 @Component({
   selector: 'app-product-add',
@@ -17,22 +18,22 @@ export class ProductAddComponent implements OnInit {
     category_id: 0
   };
 
-  categories: Category[] = [];
+  products: Product[] = [];
 
   @Output() cancelAddEvent = new EventEmitter<void>(); // add this line
 
-  constructor(private apiService: ApiService, private router: Router) { }
+  constructor(private productService: ProductService, private categoryService: CategoryService, private router: Router) { } // Inject new services
 
   ngOnInit() {
-    this.getCategories();
+    this.getProducts();
   }
 
-  getCategories() {
-    this.apiService.getCategories().subscribe(
-      (categories: Category[]) => {
-        this.categories = categories;
-        if (this.categories.length > 0) {
-          this.product.category_id = this.categories[0]?.id || 0;
+  getProducts() {
+    this.productService.getProducts().subscribe( // Use CategoryService here
+      (categories: Product[]) => {
+        this.products = categories;
+        if (this.products.length > 0) {
+          this.product.category_id = this.products[0]?.id || 0;
         }
       },
       (error) => {
@@ -42,7 +43,7 @@ export class ProductAddComponent implements OnInit {
   }
 
   addProduct() {
-    this.apiService.addProduct(this.product).subscribe(
+    this.productService.createProduct(this.product).subscribe( // Use ProductService here
       (newProduct) => {
         this.router.navigate(['/products']);
       },

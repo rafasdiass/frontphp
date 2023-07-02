@@ -16,7 +16,7 @@ import { AuthService } from './services/auth.service';
 import { LoginComponent } from './components/login/login.component';
 import { CategoryComponent } from './components/category/category.component';
 import { FormsModule } from '@angular/forms';
-import { CategoryListComponent } from './components/category/category-list/category-list.component';
+
 import { AuthGuard } from './services/authguard.service';
 import { CategoryCreateComponent } from './components/category/category-create/category-create.component';
 
@@ -32,7 +32,7 @@ import { CategoryCreateComponent } from './components/category/category-create/c
     ProductComponent,
     LoginComponent,
     CategoryComponent,
-    CategoryListComponent,
+  
     CategoryCreateComponent,
   ],
   imports: [

@@ -1,6 +1,7 @@
+import { Category } from './../../models/category.model';
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../../services/api.service';
-import { Category } from '../../models/category.model';
+import { CategoryService } from '../../services/category.service';
+
 
 @Component({
   selector: 'app-category',
@@ -9,40 +10,64 @@ import { Category } from '../../models/category.model';
 })
 export class CategoryComponent implements OnInit {
   categories: Category[] = [];
+  showAddCategory = true;
+  selectedCategory: Category | null = null;
+  categoryToDelete: Category | null = null;
 
-  constructor(private apiService: ApiService) { }
+  constructor(private categoryService: CategoryService) { }
 
   ngOnInit() {
     this.getCategories();
   }
 
   getCategories() {
-    this.apiService.getCategories().subscribe(
-      (categories: Category[] | null) => {
-        if (categories) {
-          this.categories = categories;
-        } else {
-          console.error('getCategories retornou null');
-        }
+    this.categoryService.getCategories().subscribe(
+      (response) => {
+
+
+        this.categories = response.categories;
       },
-      (error: any) => {
+      (error) => {
         console.log('Erro ao obter as categorias:', error);
       }
     );
   }
 
-  deleteCategory(id: number | undefined) {
-    if (id) {
-      this.apiService.deleteCategory(id).subscribe(
-        () => {
-          this.categories = this.categories.filter(category => category.id !== id);
-        },
-        (error: any) => {
-          console.log('Erro ao remover a categoria:', error);
-        }
-      );
+  toggleAddCategory() {
+    this.showAddCategory = !this.showAddCategory;
+    this.selectedCategory = null;
+    this.categoryToDelete = null;
+  }
+
+  onCategorySelect(category: Category) {
+    this.selectedCategory = category;
+    this.showAddCategory = false;
+    this.categoryToDelete = null;
+  }
+
+  onDeleteCategory(category: Category) {
+    this.categoryToDelete = category;
+    this.showAddCategory = false;
+    this.selectedCategory = null;
+  }
+
+  onCategoryAdded(category: Category) {
+    this.categories.push(category);
+    this.toggleAddCategory();
+  }
+
+  onConfirmDelete(category: Category) {
+    if (category.id !== undefined) {
+      this.categoryService.deleteCategory(category.id).subscribe(() => {
+        this.categories = this.categories.filter(c => c.id !== category.id);
+        this.categoryToDelete = null;
+      });
     } else {
-      console.error('ID da categoria não fornecido');
+      console.error('Error: category.id is undefined');
     }
+  }
+
+  onCancelDelete() {
+    this.categoryToDelete = null;
   }
 }

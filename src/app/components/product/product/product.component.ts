@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../../../services/api.service';
+import { ProductService } from '../../../services/product.service';
 import { Product } from '../../../models/product.model';
+import { tap, catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 @Component({
   selector: 'app-product',
@@ -13,22 +15,25 @@ export class ProductComponent implements OnInit {
   selectedProduct: Product | null = null;
   productToDelete: Product | null = null;
 
-  constructor(private apiService: ApiService) { }
+  constructor(private productService: ProductService) { }
 
   ngOnInit() {
     this.getProducts();
   }
 
   getProducts() {
-    this.apiService.getProducts().subscribe(
-      (products: Product[]) => {
+    this.productService.getProducts().pipe(
+      tap((products: Product[]) => {
         this.products = products;
-      },
-      (error) => {
+      }),
+      catchError((error) => {
         console.log('Erro ao obter os produtos:', error);
-      }
-    );
+        return throwError(error);
+      })
+    ).subscribe();
   }
+
+
 
   toggleAddProduct() {
     this.showAddProduct = !this.showAddProduct;
@@ -54,7 +59,7 @@ export class ProductComponent implements OnInit {
   }
 
   onConfirmDelete(product: Product) {
-    this.apiService.deleteProduct(product.id).subscribe(() => {
+    this.productService.deleteProduct(product.id).subscribe(() => {
       this.products = this.products.filter(p => p.id !== product.id);
       this.productToDelete = null;
     });

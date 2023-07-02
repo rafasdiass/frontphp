@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { ApiService } from '../../../services/api.service';
+import { Component, Output, EventEmitter } from '@angular/core';
+import { CategoryService } from '../../../services/category.service';
 import { Category } from '../../../models/category.model';
 
 @Component({
@@ -8,15 +8,17 @@ import { Category } from '../../../models/category.model';
   styleUrls: ['./category-create.component.scss']
 })
 export class CategoryCreateComponent {
+  @Output() categoryAdded = new EventEmitter<Category>();
   category: Category = { name: '' };
   successMessage: string | null = null;
 
-  constructor(private apiService: ApiService) { }
+  constructor(private categoryService: CategoryService) { }
 
   createCategory() {
-    this.apiService.createCategory(this.category).subscribe(
+    this.categoryService.createCategory(this.category).subscribe(
       (category: Category) => {
         this.successMessage = 'Categoria criada com sucesso: ' + category.name;
+        this.categoryAdded.emit(category); // Emit the categoryAdded event
         this.category = { name: '' }; // Reset the form
       },
       (error: any) => {
