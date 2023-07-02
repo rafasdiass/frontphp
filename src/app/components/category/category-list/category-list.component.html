@@ -1,1 +1,9 @@
-<p>category-list works!</p>
+<div class="container">
+  <h3>Produtos para a categoria {{ category.name }}</h3>
+
+  <ul class="list-group">
+    <li class="list-group-item" *ngFor="let product of products">
+      {{ product.name }}
+    </li>
+  </ul>
+</div>
