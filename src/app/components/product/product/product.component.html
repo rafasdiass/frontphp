@@ -9,7 +9,7 @@
     <li class="list-group-item" *ngFor="let product of products">
       {{ product.name }} - R$ {{ product.price }}
 
-      <button class="btn btn-link" (click)="onProductSelect(product)">Detalhes</button>
+     
       <button class="btn btn-link" (click)="onDeleteProduct(product)">Excluir</button>
     </li>
   </ul>

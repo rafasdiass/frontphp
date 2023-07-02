@@ -6,7 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { ProductListComponent } from './components/product/product-list/product-list.component';
+
 import { ProductAddComponent } from './components/product/product-add/product-add.component';
 import { ProductDeleteComponent } from './components/product/product-delete/product-delete.component';
 import { ProductComponent } from './components/product/product/product.component';
@@ -25,14 +25,12 @@ import { CategoryCreateComponent } from './components/category/category-create/c
     AppComponent,
     HomeComponent,
     NavbarComponent,
-    ProductListComponent,
-
-    ProductAddComponent,
+     ProductAddComponent,
     ProductDeleteComponent,
     ProductComponent,
     LoginComponent,
     CategoryComponent,
-  
+
     CategoryCreateComponent,
   ],
   imports: [
