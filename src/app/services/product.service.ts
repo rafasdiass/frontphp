@@ -43,13 +43,5 @@ export class ProductService {
     console.error('Ocorreu um erro:', error);
     return throwError(error);
   }
-  
-  getCategories(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/categories`).pipe(
-      catchError(this.handleError),
-      tap((response: any) => {
-        console.log('Resposta do servidor:', response);
-      })
-    );
-  }
+
 }
