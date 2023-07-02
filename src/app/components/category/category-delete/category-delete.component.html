@@ -1,0 +1,10 @@
+<!-- category-delete.component.html -->
+<div *ngIf="category" class="alert alert-danger" role="alert">
+  <h4 class="alert-heading">Confirmação de Exclusão</h4>
+  <p>Você tem certeza que deseja excluir a categoria "{{category.name}}"?</p>
+  <hr>
+  <div class="d-flex justify-content-end">
+    <button type="button" class="btn btn-danger mr-2" (click)="onConfirmDelete()">Confirmar Exclusão</button>
+    <button type="button" class="btn btn-secondary" (click)="onCancelDelete()">Cancelar</button>
+  </div>
+</div>

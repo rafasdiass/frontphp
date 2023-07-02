@@ -7,18 +7,23 @@
       <ul class="list-group">
         <li class="list-group-item" *ngFor="let category of categories">
           {{ category.name }}
+
+          <!-- Adicione um botão de exclusão aqui -->
+          <button (click)="onDeleteCategory(category)" class="btn btn-danger btn-sm float-right">Excluir</button>
         </li>
       </ul>
     </div>
   </div>
-
-  
 
   <div class="row mt-4">
     <div class="col-md-6">
       <app-category-create (categoryAdded)="onCategoryAdded($event)"></app-category-create>
     </div>
   </div>
+
+  <!-- Componente para confirmar exclusão da categoria -->
+  <app-category-delete *ngIf="categoryToDelete" [category]="categoryToDelete"
+  (confirmDelete)="onConfirmDelete(categoryToDelete)" (cancelDelete)="onCancelDelete()"></app-category-delete>
 </div>
 
 

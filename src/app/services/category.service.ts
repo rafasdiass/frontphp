@@ -13,28 +13,22 @@ export class CategoryService {
 
   createCategory(categoryData: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/categories`, categoryData).pipe(
-      catchError(this.handleError),
-      tap((response: any) => {
-        console.log('Resposta do servidor:', response);
-      })
+      tap((response: any) => console.log('Resposta do servidor:', response)),
+      catchError(this.handleError)
     );
   }
 
   getCategories(): Observable<any> {
     return this.http.get(`${this.apiUrl}/categories`).pipe(
-      catchError(this.handleError),
-      tap((response: any) => {
-        console.log('Resposta do servidor:', response);
-      })
+      tap((response: any) => console.log('Resposta do servidor:', response)),
+      catchError(this.handleError)
     );
   }
 
   deleteCategory(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/categories/${id}`).pipe(
-      catchError(this.handleError),
-      tap((response: any) => {
-        console.log('Resposta do servidor:', response);
-      })
+      tap((response: any) => console.log('Resposta do servidor:', response)),
+      catchError(this.handleError)
     );
   }
 
